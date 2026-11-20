@@ -1,0 +1,5 @@
+# Réglages de l'éditeur
+.idea/
+
+# Identifiants de connexion : ne jamais versionner
+config/database.php
