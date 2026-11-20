@@ -13,7 +13,18 @@ $fichier = __DIR__ . '/public' . ($uri === '/' ? '/index.php' : $uri);
 
 // Fichiers statiques (CSS, JS, images) → servir directement
 if (is_file($fichier) && !str_ends_with($fichier, '.php')) {
-    $type = mime_content_type($fichier) ?: 'application/octet-stream';
+    $types = [
+        'css'  => 'text/css; charset=utf-8',
+        'js'   => 'application/javascript; charset=utf-8',
+        'png'  => 'image/png',
+        'jpg'  => 'image/jpeg',
+        'jpeg' => 'image/jpeg',
+        'svg'  => 'image/svg+xml',
+        'ico'  => 'image/x-icon',
+    ];
+    $extension = strtolower(pathinfo($fichier, PATHINFO_EXTENSION));
+    $type = $types[$extension] ?? (mime_content_type($fichier) ?: 'application/octet-stream');
+
     header('Content-Type: ' . $type);
     readfile($fichier);
     return;
