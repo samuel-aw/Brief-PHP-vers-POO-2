@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'host' => '127.0.0.1',
-    'database' => 'mediatheque',
+    'host' => 'localhost',
+    'database' => 'mediatheque_poo2',
     'username' => 'root',
-    'password' => 'olivier',
+    'password' => '',
 ];
 

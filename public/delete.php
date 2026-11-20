@@ -1,19 +1,18 @@
 <?php
 
-session_start();
+require __DIR__ . '/../config/bootstrap.php';
 
-require __DIR__ . '/../includes/db.php';
-require __DIR__ . '/../includes/functions.php';
+use App\Database;
+use App\Flash;
+use App\ResourceRepository;
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    set_flash('error', 'Méthode non autorisée.');
+    Flash::set('error', 'Méthode non autorisée.');
     redirect('index.php');
 }
 
-$id = (int) ($_POST['id'] ?? 0);
+$repository = new ResourceRepository(Database::getConnection());
+$repository->delete((int) ($_POST['id'] ?? 0));
 
-$statement = $pdo->prepare('DELETE FROM resources WHERE id = :id');
-$statement->execute(['id' => $id]);
-
-set_flash('success', 'Ressource supprimée.');
+Flash::set('success', 'Resource supprimée');
 redirect('index.php');

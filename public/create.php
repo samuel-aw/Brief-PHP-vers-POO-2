@@ -1,55 +1,32 @@
 <?php
 
-session_start();
+require __DIR__ . '/../config/bootstrap.php';
 
-require __DIR__ . '/../includes/functions.php';
+use App\Database;
+use App\Flash;
+use App\Resource;
+use App\ResourceRepository;
+use App\Validator;
 
-$flash = get_flash();
+$repository = new ResourceRepository(Database::getConnection());
+$resource = new Resource(title: '', type: '');  // Formulaire vide
+$errors = [];
+
+if($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $errors = Validator::validateResource($_POST);
+    $resource = Resource::fromArray($_POST);
+
+    if (!$errors) {
+        $repository->create($resource);
+        Flash::set('success', 'Ressource ajoutée.');
+        redirect('index.php');
+    }
+}
+
+$pageTitle = 'Ajouter une resource';
+$formAction = 'create.php';
+$submitLabel = 'Enregistrer';
+
+require __DIR__ . '/../views/create.php';
 ?>
-<!doctype html>
-<html lang="fr">
-<head>
-    <meta charset="utf-8">
-    <title>Ajouter une ressource</title>
-    <link rel="stylesheet" href="assets/style.css">
-</head>
-<body>
-<main>
-    <h1>Ajouter une ressource</h1>
 
-    <?php if ($flash): ?>
-        <div class="flash <?= h($flash['type']) ?>"><?= h($flash['message']) ?></div>
-    <?php endif; ?>
-
-    <form method="post" action="store.php">
-        <label>
-            Titre
-            <input type="text" name="title" required>
-        </label>
-
-        <label>
-            Type
-            <input type="text" name="type" required>
-        </label>
-
-        <label>
-            Statut
-            <select name="status">
-                <option value="disponible">Disponible</option>
-                <option value="emprunte">Emprunté</option>
-                <option value="maintenance">Maintenance</option>
-            </select>
-        </label>
-
-        <label>
-            Emprunteur
-            <input type="text" name="borrower">
-        </label>
-
-        <button type="submit">Enregistrer</button>
-    </form>
-
-    <p><a href="index.php">Retour à la liste</a></p>
-</main>
-</body>
-</html>

@@ -8,7 +8,7 @@ class ResourceRepository {
     public function __construct(private readonly PDO $pdo) {}
 
     public function findAll(): array {
-        $statement = $this->pdo->query('SELECT * FROM resources ORDER BY created_at DESC');
+        $statement = $this->pdo->query('SELECT * FROM resources ORDER BY created_at DESC, id DESC');
         $rows = $statement->fetchAll();
         return array_map(fn (array $row): Resource => Resource::fromArray($row), $rows);
     }

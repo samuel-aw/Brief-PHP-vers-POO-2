@@ -1,8 +1,8 @@
-CREATE DATABASE IF NOT EXISTS mediatheque_poo
+CREATE DATABASE IF NOT EXISTS mediatheque_poo2
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
 
-USE mediatheque_poo;
+USE mediatheque_poo2;
 
 DROP TABLE IF EXISTS resources;
 

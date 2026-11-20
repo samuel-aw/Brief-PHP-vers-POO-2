@@ -3,6 +3,14 @@
 namespace App;
 
 class Resource {
+
+    // Source unique de vérité pour les statuts : valeur => libellé affiché
+    public const STATUSES = [
+        'disponible' => 'Disponible',
+        'emprunte' => 'Emprunté',
+        'maintenance' => 'Maintenance',
+    ];
+
     public function __construct(
         public string $title,
         public string $type,
@@ -13,11 +21,13 @@ class Resource {
     ){}
 
     public static function fromArray(array $data): self {
+        $borrower = trim((string) ($data['borrower'] ?? ''));
+
         return new self(
-            title: $data['title'],
-            type: $data['type'],
+            title: trim((string) ($data['title'] ?? '')),
+            type: trim((string) ($data['type'] ?? '')),
             status: $data['status'] ?? 'disponible',
-            borrower: $data['borrower'] ?? null,
+            borrower: $borrower === '' ? null : $borrower,
             id: isset($data['id']) ? (int) $data['id'] : null,
             createdAt: $data['created_at'] ?? null,
         );
