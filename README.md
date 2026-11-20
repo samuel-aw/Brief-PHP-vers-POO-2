@@ -21,8 +21,8 @@ refactorisée du PHP procédural vers le PHP orienté objet (POO).
 
 1. Cloner le dépôt :
    ```bash
-   git clone <URL-DU-DEPOT>
-   cd <NOM-DU-DOSSIER>
+   git clone https://github.com/samuel-aw/Brief-PHP-vers-POO-2
+   cd proceduralPOO2
    ```
 
 2. Démarrer MySQL (par exemple depuis le panneau de contrôle de XAMPP).
